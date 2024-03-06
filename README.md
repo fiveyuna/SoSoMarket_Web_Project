@@ -1,5 +1,5 @@
 # SoSoMarket_Web_Project
-DDW Univ. Software System Development Project
+2022, DDW Univ. Software System Development Project
 - Front-End
 - UX/UI Design
 

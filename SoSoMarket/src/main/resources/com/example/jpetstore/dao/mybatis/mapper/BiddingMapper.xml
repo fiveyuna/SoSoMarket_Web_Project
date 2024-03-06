@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.jpetstore.dao.mybatis.mapper.BiddingMapper">
+  <cache />
+
+  <select id="getBidding" resultType="Bidding">
+    SELECT 
+   		B.UPDATE_DATE as updateDate,
+   		B.BIDDING_PRICE as biddingPrice,
+    	B.PRODUCT_ID as productId, 
+        B.BIDDING_ID as biddingId,
+	    B.ACCOUNT_ID as buyerId,
+	    P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM BIDDING B, PRODUCT P, ACCOUNT A
+    WHERE B.PRODUCT_ID = P.PRODUCT_ID AND B.ACCOUNT_ID = A.ACCOUNT_ID AND B.BIDDING_ID = #{biddingId}
+  </select>
+
+  <insert id="insertBidding" parameterType="Bidding">
+    INSERT INTO BIDDING
+      (BIDDING_PRICE, PRODUCT_ID, BIDDING_ID, ACCOUNT_ID)
+    VALUES
+      (#{biddingPrice}, #{productId}, pk_sequence.NEXTVAL, #{buyerId})
+  </insert>
+
+  <update id="updateBidding" parameterType="Bidding">
+    UPDATE BIDDING
+    SET
+        UPDATE_DATE = TO_DATE(SYSDATE),
+   		BIDDING_PRICE = #{biddingPrice},
+    	PRODUCT_ID = #{productId}, 
+	    ACCOUNT_ID = #{accountId}
+    WHERE BIDDING_ID = #{biddingId}
+  </update>
+  
+  <delete id="deleteBidding" parameterType="int">
+    DELETE FROM ACCOUNT
+    WHERE ACCOUNT_ID = #{accountId}
+  </delete>
+  
+  <select id="getBiddingsByUser" resultType="Bidding">
+    SELECT
+    	B.UPDATE_DATE as updateDate,
+   		B.BIDDING_PRICE as biddingPrice,
+    	B.PRODUCT_ID as productId, 
+        B.BIDDING_ID as biddingId,
+	    B.ACCOUNT_ID as buyerId,
+	    P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM BIDDING B, PRODUCT P, ACCOUNT A
+    WHERE B.PRODUCT_ID = P.PRODUCT_ID AND B.ACCOUNT_ID = A.ACCOUNT_ID AND B.ACCOUNT_ID = #{buyerId}
+  </select>
+  
+  <select id="getBiddingsByAuction" resultType="Bidding">
+    SELECT
+      	B.UPDATE_DATE as updateDate,
+   		B.BIDDING_PRICE as biddingPrice,
+    	B.PRODUCT_ID as productId, 
+        B.BIDDING_ID as biddingId,
+	    B.ACCOUNT_ID as buyerId,
+	    P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM BIDDING B, PRODUCT P, ACCOUNT A
+    WHERE B.PRODUCT_ID = P.PRODUCT_ID AND B.ACCOUNT_ID = A.ACCOUNT_ID AND B.PRODUCT_ID = #{productId}
+  </select>
+</mapper>

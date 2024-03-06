@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.jpetstore.dao.mybatis.mapper.ProductMapper">
+
+  <cache />
+
+  <select id="getProductListByCategory" resultType="Product">
+    SELECT
+      P.PRODUCT_ID as productId,
+      P.TITLE as title,
+      P.DESCRIPTION as description,
+      P.SHIPPING as shipping,
+      P.SHIPPING_FEE as shippingFee,
+      P.IMAGE as image,
+      P.CREATED_TIME as createdTime,
+      P.CATEGORY_ID as categoryId,
+      P.PRODUCT_STATUS as productStatus,
+      P.ACCOUNT_ID as sellerId,
+      P.PRICE as price,
+      P.PRODUCT_TYPE as productType,
+      A.PASSWORD AS "account.password",
+      A.PHONE_NUMBER AS "account.phoneNumber",
+      A.EMAIL_ADDRESS AS "account.email",
+      A.ACCOUNT_ID AS "account.accountId",
+      A.NICKNAME AS "account.nickname",
+      A.JOIN_DATE AS "account.joinDate",
+      A.MY_ADDRESS AS "account.address",
+      A.MY_ZIPCODE AS "account.zipcode",
+      A.BANK_NAME AS "account.bankName",
+      A.BANK_NUMBER AS "account.bankNumber",
+      A.WITHDRAW AS "account.withdraw"
+    FROM PRODUCT P, ACCOUNT A
+    WHERE P.ACCOUNT_ID = A.ACCOUNT_ID AND P.CATEGORY_ID = #{categoryId} AND P.PRODUCT_TYPE = 'product'
+  </select>
+  
+  <select id="getProductListByUser" resultType="Product">
+    SELECT
+      P.PRODUCT_ID as productId,
+      P.TITLE as title,
+      P.DESCRIPTION as description,
+      P.SHIPPING as shipping,
+      P.SHIPPING_FEE as shippingFee,
+      P.IMAGE as image,
+      P.CREATED_TIME as createdTime,
+      P.CATEGORY_ID as categoryId,
+      P.PRODUCT_STATUS as productStatus,
+      P.ACCOUNT_ID as sellerId,
+      P.PRICE as price,
+      P.PRODUCT_TYPE as productType,
+      A.PASSWORD AS "account.password",
+      A.PHONE_NUMBER AS "account.phoneNumber",
+      A.EMAIL_ADDRESS AS "account.email",
+      A.ACCOUNT_ID AS "account.accountId",
+      A.NICKNAME AS "account.nickname",
+      A.JOIN_DATE AS "account.joinDate",
+      A.MY_ADDRESS AS "account.address",
+      A.MY_ZIPCODE AS "account.zipcode",
+      A.BANK_NAME AS "account.bankName",
+      A.BANK_NUMBER AS "account.bankNumber",
+      A.WITHDRAW AS "account.withdraw"
+    FROM PRODUCT P, ACCOUNT A
+    WHERE P.ACCOUNT_ID = A.ACCOUNT_ID AND P.ACCOUNT_ID = #{sellerId} AND P.PRODUCT_TYPE = 'product'
+  </select>
+
+  <select id="searchProductList" resultType="Product">
+	SELECT
+      P.PRODUCT_ID as productId,
+      P.TITLE as title,
+      P.DESCRIPTION as description,
+      P.SHIPPING as shipping,
+      P.SHIPPING_FEE as shippingFee,
+      P.IMAGE as image,
+      P.CREATED_TIME as createdTime,
+      P.CATEGORY_ID as categoryId,
+      P.PRODUCT_STATUS as productStatus,
+      P.ACCOUNT_ID as sellerId,
+      P.PRICE as price,
+      P.PRODUCT_TYPE as productType,
+      A.PASSWORD AS "account.password",
+      A.PHONE_NUMBER AS "account.phoneNumber",
+      A.EMAIL_ADDRESS AS "account.email",
+      A.ACCOUNT_ID AS "account.accountId",
+      A.NICKNAME AS "account.nickname",
+      A.JOIN_DATE AS "account.joinDate",
+      A.MY_ADDRESS AS "account.address",
+      A.MY_ZIPCODE AS "account.zipcode",
+      A.BANK_NAME AS "account.bankName",
+      A.BANK_NUMBER AS "account.bankNumber",
+      A.WITHDRAW AS "account.withdraw"
+    FROM PRODUCT P, ACCOUNT A
+    WHERE P.ACCOUNT_ID = A.ACCOUNT_ID AND lower(title) like #{keyword} AND P.PRODUCT_TYPE = 'product'
+  </select>
+  
+  <select id="getAllProductList" resultType="Product">
+    SELECT
+      P.PRODUCT_ID as productId,
+      P.TITLE as title,
+      P.DESCRIPTION as description,
+      P.SHIPPING as shipping,
+      P.SHIPPING_FEE as shippingFee,
+      P.IMAGE as image,
+      P.CREATED_TIME as createdTime,
+      P.CATEGORY_ID as categoryId,
+      P.PRODUCT_STATUS as productStatus,
+      P.ACCOUNT_ID as sellerId,
+      P.PRICE as price,
+      P.PRODUCT_TYPE as productType,
+      A.PASSWORD AS "account.password",
+      A.PHONE_NUMBER AS "account.phoneNumber",
+      A.EMAIL_ADDRESS AS "account.email",
+      A.ACCOUNT_ID AS "account.accountId",
+      A.NICKNAME AS "account.nickname",
+      A.JOIN_DATE AS "account.joinDate",
+      A.MY_ADDRESS AS "account.address",
+      A.MY_ZIPCODE AS "account.zipcode",
+      A.BANK_NAME AS "account.bankName",
+      A.BANK_NUMBER AS "account.bankNumber",
+      A.WITHDRAW AS "account.withdraw"
+    FROM PRODUCT P, ACCOUNT A
+    WHERE PRODUCT_TYPE = 'product' AND P.ACCOUNT_ID = A.ACCOUNT_ID 
+  </select>
+  
+  <select id="getProduct" resultType="Product">
+    SELECT
+      P.PRODUCT_ID as productId,
+      P.TITLE as title,
+      P.DESCRIPTION as description,
+      P.SHIPPING as shipping,
+      P.SHIPPING_FEE as shippingFee,
+      P.IMAGE as image,
+      P.CREATED_TIME as createdTime,
+      P.CATEGORY_ID as categoryId,
+      P.PRODUCT_STATUS as productStatus,
+      P.ACCOUNT_ID as sellerId,
+      P.PRICE as price,
+      P.PRODUCT_TYPE as productType,
+      A.PASSWORD AS "account.password",
+      A.PHONE_NUMBER AS "account.phoneNumber",
+      A.EMAIL_ADDRESS AS "account.email",
+      A.ACCOUNT_ID AS "account.accountId",
+      A.NICKNAME AS "account.nickname",
+      A.JOIN_DATE AS "account.joinDate",
+      A.MY_ADDRESS AS "account.address",
+      A.MY_ZIPCODE AS "account.zipcode",
+      A.BANK_NAME AS "account.bankName",
+      A.BANK_NUMBER AS "account.bankNumber",
+      A.WITHDRAW AS "account.withdraw"
+    FROM PRODUCT P, ACCOUNT A
+    WHERE P.ACCOUNT_ID = A.ACCOUNT_ID AND P.PRODUCT_ID = #{productId}
+  </select>
+  
+  <select id="getProductByUserAndTitle" resultType="Product">
+    SELECT
+      P.PRODUCT_ID as productId,
+      P.TITLE as title,
+      P.DESCRIPTION as description,
+      P.SHIPPING as shipping,
+      P.SHIPPING_FEE as shippingFee,
+      P.IMAGE as image,
+      P.CREATED_TIME as createdTime,
+      P.CATEGORY_ID as categoryId,
+      P.PRODUCT_STATUS as productStatus,
+      P.ACCOUNT_ID as sellerId,
+      P.PRICE as price,
+      P.PRODUCT_TYPE as productType,
+      A.PASSWORD AS "account.password",
+      A.PHONE_NUMBER AS "account.phoneNumber",
+      A.EMAIL_ADDRESS AS "account.email",
+      A.ACCOUNT_ID AS "account.accountId",
+      A.NICKNAME AS "account.nickname",
+      A.JOIN_DATE AS "account.joinDate",
+      A.MY_ADDRESS AS "account.address",
+      A.MY_ZIPCODE AS "account.zipcode",
+      A.BANK_NAME AS "account.bankName",
+      A.BANK_NUMBER AS "account.bankNumber",
+      A.WITHDRAW AS "account.withdraw"
+    FROM PRODUCT P, ACCOUNT A
+    WHERE P.ACCOUNT_ID = A.ACCOUNT_ID AND P.ACCOUNT_ID = #{accountId, jdbcType=VARCHAR} AND P.TITLE = #{title, jdbcType=VARCHAR}
+  </select>
+  
+  <update id="updateProduct" parameterType="Product">
+    UPDATE PRODUCT SET
+      TITLE = #{title},
+      DESCRIPTION = #{description},
+      SHIPPING = #{shipping},
+      SHIPPING_FEE = #{shippingFee},
+      IMAGE = #{image},
+      CATEGORY_ID = #{categoryId},
+	  PRICE = #{price}
+    WHERE PRODUCT_ID = #{productId}
+  </update>
+
+  <insert id="insertProduct" parameterType="Product">
+    INSERT INTO PRODUCT
+      (PRODUCT_ID, TITLE, DESCRIPTION, SHIPPING, SHIPPING_FEE, IMAGE,
+        CATEGORY_ID, ACCOUNT_ID, PRICE, PRODUCT_TYPE)
+    VALUES
+      (pk_sequence.NEXTVAL, #{title, jdbcType=VARCHAR}, #{description, jdbcType=VARCHAR}, #{shipping, jdbcType=VARCHAR}, #{shippingFee, jdbcType=NUMERIC},
+        #{image, jdbcType=VARCHAR}, #{categoryId, jdbcType=NUMERIC}, #{sellerId, jdbcType=VARCHAR}, #{price, jdbcType=NUMERIC}, #{productType, jdbcType=VARCHAR})
+
+  </insert>
+
+  <delete id="deleteProduct" parameterType="int">
+    DELETE FROM PRODUCT
+    WHERE PRODUCT_ID = #{productId}
+  </delete>
+  
+  <update id="updateProductStatus" parameterType="Product">
+    UPDATE PRODUCT SET
+      PRODUCT_STATUS = #{productStatus}
+    WHERE PRODUCT_ID = #{productId}
+  </update>
+  
+</mapper>

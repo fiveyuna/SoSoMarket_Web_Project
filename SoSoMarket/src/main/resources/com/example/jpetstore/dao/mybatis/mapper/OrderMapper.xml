@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.jpetstore.dao.mybatis.mapper.OrderMapper">
+
+  <cache />
+  <select id="getOrder" resultType="Order">
+    SELECT
+    	O.ORDER_DATE as orderDate,
+		O.PRODUCT_ID as productId,
+		O.ORDER_ID as orderId,
+		O.ORDER_STATUS as orderStatus,
+		O.SHIPPING_ADDRESS as shippingAddress,
+		O.SHIPPING_ZIPCODE as shippingZipcode,
+		O.ACCOUNT_ID as buyerId
+    FROM ORDERS O
+    WHERE O.ORDER_ID = #{orderId}
+  </select>
+  
+  
+  <select id="getOrderBySeller" resultType="Order">
+    SELECT
+    	O.ORDER_DATE as orderDate,
+		O.PRODUCT_ID as productId,
+		O.ORDER_ID as orderId,
+		O.ORDER_STATUS as orderStatus,
+		O.SHIPPING_ADDRESS as shippingAddress,
+		O.SHIPPING_ZIPCODE as shippingZipcode,
+		O.ACCOUNT_ID as buyerId,
+		P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM ORDERS O, PRODUCT P, ACCOUNT A
+    WHERE O.PRODUCT_ID = P.PRODUCT_ID AND  P.ACCOUNT_ID = A.ACCOUNT_ID AND O.ORDER_ID = #{orderId}
+  </select>
+  
+  <select id="getOrderByBuyer" resultType="Order">
+    SELECT
+    	O.ORDER_DATE as orderDate,
+		O.PRODUCT_ID as productId,
+		O.ORDER_ID as orderId,
+		O.ORDER_STATUS as orderStatus,
+		O.SHIPPING_ADDRESS as shippingAddress,
+		O.SHIPPING_ZIPCODE as shippingZipcode,
+		O.ACCOUNT_ID as buyerId,
+		P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM ORDERS O, PRODUCT P, ACCOUNT A
+    WHERE O.PRODUCT_ID = P.PRODUCT_ID AND O.ACCOUNT_ID = A.ACCOUNT_ID AND O.ORDER_ID = #{orderId}
+  </select>
+  
+  <insert id="insertOrder" parameterType="Order">
+    INSERT INTO ORDERS (PRODUCT_ID, ORDER_ID, ORDER_STATUS, 
+    	SHIPPING_ADDRESS, SHIPPING_ZIPCODE,	ACCOUNT_ID)
+    VALUES (#{productId}, pk_sequence.NEXTVAL, 'waiting',
+    	 #{shippingAddress}, #{shippingZipCode}, #{buyerId})
+  </insert>
+  
+  <update id="updateOrderStatus" parameterType="Order">
+    UPDATE ORDERS
+    SET ORDER_STATUS = #{orderStatus}
+	WHERE ACCOUNT_ID = #{buyerId} AND ORDER_ID = #{orderId}
+  </update>
+  
+  <select id="getOrderListBySeller" resultType="Order">
+    SELECT
+    	O.ORDER_DATE as orderDate,
+		O.PRODUCT_ID as productId,
+		O.ORDER_ID as orderId,
+		O.ORDER_STATUS as orderStatus,
+		O.SHIPPING_ADDRESS as shippingAddress,
+		O.SHIPPING_ZIPCODE as shippingZipcode,
+		O.ACCOUNT_ID as sellerId,
+		P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM ORDERS O, PRODUCT P, ACCOUNT A
+    WHERE O.PRODUCT_ID = P.PRODUCT_ID AND O.ACCOUNT_ID = A.ACCOUNT_ID AND P.ACCOUNT_ID = #{sellerId}
+  </select>
+  
+  <select id="getOrderListByBuyer" resultType="Order">
+    SELECT
+    	O.ORDER_DATE as orderDate,
+		O.PRODUCT_ID as productId,
+		O.ORDER_ID as orderId,
+		O.ORDER_STATUS as orderStatus,
+		O.SHIPPING_ADDRESS as shippingAddress,
+		O.SHIPPING_ZIPCODE as shippingZipcode,
+		O.ACCOUNT_ID as buyerId,
+		P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType",
+		A.PASSWORD AS "account.password",
+        A.PHONE_NUMBER AS "account.phoneNumber",
+        A.EMAIL_ADDRESS AS "account.email",
+        A.ACCOUNT_ID AS "account.accountId",
+        A.NICKNAME AS "account.nickname",
+        A.JOIN_DATE AS "account.joinDate",
+        A.MY_ADDRESS AS "account.address",
+        A.MY_ZIPCODE AS "account.zipcode",
+        A.BANK_NAME AS "account.bankName",
+        A.BANK_NUMBER AS "account.bankNumber",
+        A.WITHDRAW AS "account.withdraw"
+    FROM ORDERS O, PRODUCT P, ACCOUNT A
+    WHERE O.PRODUCT_ID = P.PRODUCT_ID AND O.ACCOUNT_ID = A.ACCOUNT_ID AND O.ACCOUNT_ID = #{buyerId}
+  </select>
+
+</mapper>

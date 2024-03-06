@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.jpetstore.dao.mybatis.mapper.AccountMapper">
+  <cache />
+
+  <select id="getAccount" resultType="Account">
+    SELECT 
+        PASSWORD AS password,
+        PHONE_NUMBER AS phoneNumber,
+        EMAIL_ADDRESS AS email,
+        ACCOUNT_ID AS accountId,
+        NICKNAME AS nickname,
+        JOIN_DATE AS joinDate,
+        MY_ADDRESS AS address,
+        MY_ZIPCODE AS zipcode,
+        BANK_NAME AS bankName,
+        BANK_NUMBER AS bankNumber,
+        WITHDRAW AS withdraw
+    FROM ACCOUNT
+    WHERE ACCOUNT_ID = #{accountId, jdbcType=VARCHAR}
+  </select>
+
+  <select id="getAccountLogIn" resultType="Account">
+    SELECT
+        PASSWORD AS password,
+        PHONE_NUMBER AS phoneNumber,
+        EMAIL_ADDRESS AS email,
+        ACCOUNT_ID AS accountId,
+        NICKNAME AS nickname,
+        JOIN_DATE AS joinDate,
+        MY_ADDRESS AS address,
+        MY_ZIPCODE AS zipcode,
+        BANK_NAME AS bankName,
+        BANK_NUMBER AS bankNumber,
+        WITHDRAW AS withdraw
+    FROM ACCOUNT
+    WHERE ACCOUNT_ID = #{accountId} AND PASSWORD = #{password}
+  </select>
+
+  <insert id="insertAccount" parameterType="Account">
+    INSERT INTO ACCOUNT
+      (PASSWORD, PHONE_NUMBER, EMAIL_ADDRESS, ACCOUNT_ID, NICKNAME,
+       MY_ADDRESS, MY_ZIPCODE, BANK_NAME, BANK_NUMBER)
+    VALUES
+      (#{password}, #{phoneNumber}, #{email}, #{accountId}, #{nickname},
+       #{address}, #{zipcode}, #{bankName}, #{bankNumber})
+  </insert>
+
+  <update id="updateAccount" parameterType="Account">
+    UPDATE ACCOUNT
+    SET
+        PASSWORD = #{password},
+        PHONE_NUMBER = #{phoneNumber},
+        EMAIL_ADDRESS = #{email},
+        NICKNAME = #{nickname},
+        MY_ADDRESS = #{address},
+        MY_ZIPCODE = #{zipcode},
+        BANK_NAME = #{bankName},
+        BANK_NUMBER = #{bankNumber}
+    WHERE ACCOUNT_ID = #{accountId}
+  </update>
+
+  <delete id="deleteAccount" parameterType="String">
+    DELETE FROM ACCOUNT
+    WHERE ACCOUNT_ID = #{accountId}
+  </delete>
+  
+  <update id="updateWithdraw" parameterType="String">
+    UPDATE ACCOUNT
+    SET
+        WITHDRAW = WITHDRAW + 1
+    WHERE ACCOUNT_ID = #{accountId}
+  </update>
+</mapper>

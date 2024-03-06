@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.jpetstore.dao.mybatis.mapper.WishMapper">
+  <cache />
+
+  <select id="getWish" resultType="Wish">
+    SELECT
+    	W.WISH_ID as wishId,
+    	W.PRODUCT_ID as productId,
+    	W.ACCOUNT_ID as accountId,
+    	P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType"
+    FROM WISH W, PRODUCT P
+    WHERE W.PRODUCT_ID = P.PRODUCT_ID AND W.PRODUCT_ID = #{productId}
+  </select>
+  
+  <select id="getWishByAccountAndProduct" resultType="Wish">
+    SELECT
+    	W.WISH_ID as wishId,
+    	W.PRODUCT_ID as productId,
+    	W.ACCOUNT_ID as accountId,
+    	P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType"
+    FROM WISH W, PRODUCT P
+    WHERE W.PRODUCT_ID = P.PRODUCT_ID AND W.PRODUCT_ID = #{productId} AND W.ACCOUNT_ID = #{accountId}
+  </select>
+  
+  <insert id="insertWish" parameterType="Wish">
+    INSERT INTO WISH
+      (WISH_ID, PRODUCT_ID, ACCOUNT_ID)
+    VALUES
+      (pk_sequence.NEXTVAL, #{productId}, #{accountId})
+  </insert>
+
+  <delete id="deleteWish" parameterType="int">
+    DELETE FROM WISH
+    WHERE PRODUCT_ID = #{productId}
+  </delete>
+
+  <select id="getWishListByUser" resultType="Wish">
+    SELECT
+		W.WISH_ID as wishId,
+    	W.PRODUCT_ID as productId,
+    	W.ACCOUNT_ID as accountId,
+    	P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType"
+    FROM WISH W, PRODUCT P
+    WHERE W.PRODUCT_ID = P.PRODUCT_ID AND W.ACCOUNT_ID = #{accountId} AND P.PRODUCT_TYPE = 'product'
+  </select>
+  
+  <select id="getWishListAuctionByUser" resultType="Wish">
+    SELECT
+		W.WISH_ID as wishId,
+    	W.PRODUCT_ID as productId,
+    	W.ACCOUNT_ID as accountId,
+    	P.TITLE as "product.title",
+    	P.DESCRIPTION as "product.description",
+		P.SHIPPING as "product.shipping",
+		P.SHIPPING_FEE as "product.shippingFee",
+		P.IMAGE as "product.image",
+		P.CREATED_TIME as "product.createdTime",
+		P.CATEGORY_ID as "product.categoryId",
+		P.PRODUCT_STATUS as "product.productStatus",
+		P.ACCOUNT_ID as "product.sellerId",
+		P.PRICE as "product.price",
+		P.PRODUCT_TYPE as "product.productType"
+    FROM WISH W, AUCTION A, PRODUCT P
+    WHERE W.PRODUCT_ID = A.PRODUCT_ID AND A.PRODUCT_ID = P.PRODUCT_ID AND W.ACCOUNT_ID = #{accountId} AND P.PRODUCT_TYPE = 'auction'
+  </select>
+</mapper>
